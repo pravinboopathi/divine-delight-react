@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background-color: #999;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background-color: #E94444; /* your primary color */
+  width: 24px;
+  border-radius: 4px;
+}
+
+.swiper-pagination {
+  position: relative;
+  margin-top: 2rem;
+}
