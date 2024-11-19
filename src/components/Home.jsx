@@ -1,3 +1,4 @@
+import { DiscountProvider } from "../context/DiscountContext"
 import Celebrate from "./Celebrate"
 import Footer from "./Footer"
 import Gift from "./Gifts"
@@ -16,9 +17,13 @@ const Home = () => {
     <Hero/>
     <Giving/>
     <Celebrate/>
+    <DiscountProvider>
+
     <Gift/>
     <New/>
-    <Message/>
+    </DiscountProvider>
+        <Message/>
+  
     <Footer/>
     <ScrollUp/>
     </div>

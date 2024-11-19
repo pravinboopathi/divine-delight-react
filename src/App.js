@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-// import Gift from './components/Gift';
 import Home from './components/Home';
 import ScrollReveal from 'scrollreveal';
 import Navbar from './components/Navbar';
+import SpinWheel from './components/SpinWheel';
+import { DiscountProvider } from './context/DiscountContext';
 
 function App() {
   useEffect(() => {
-    // Initialize ScrollReveal
     const sr = ScrollReveal({
       origin: 'top',
       distance: '60px',
@@ -24,14 +24,15 @@ function App() {
   }, []);
 
   return (
-    <div className="font-body ">
-      <Navbar />
-      <main className="overflow-hidden lg:px-32">
-        <Home />
-       
-      </main>
-      
-    </div>
+    <DiscountProvider>
+      <div className="font-body">
+        <Navbar />
+        <SpinWheel />
+        <main className="overflow-hidden lg:px-32">
+          <Home />
+        </main>
+      </div>
+    </DiscountProvider>
   );
 }
 

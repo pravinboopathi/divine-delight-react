@@ -27,7 +27,7 @@ const Navbar = () => {
 
   const handleLinkClick = (item) => {
     setActiveLink(item);
-    setShowMenu(false); // Close menu when link is clicked
+    setShowMenu(false); // Close mobile menu when link is clicked
   };
 
   return (

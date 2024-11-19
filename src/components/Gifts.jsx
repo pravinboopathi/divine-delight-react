@@ -1,65 +1,105 @@
 import { BsHeart } from 'react-icons/bs';
-
-
-
-
-
-const wineData = [
-  {
-    img: "1.png",
-    price: "₹320",
-    title: "Grape Wine"
-  },
-  {
-    img: "3.png",
-    price: "₹350",
-    title: "Pineapple Wine"
-  },
-  {
-    img: "2.png",
-    price: "₹400",
-    title: "Amla Wine"
-  }
-];
-
-const cakeData = [
-  {
-    img: "pm.avif",
-    price: "₹550",
-    title: "Plum Cake"
-  },
-  {
-    img: "cck.jpg",
-    price: "₹600",
-    title: "Carrot Cake"
-  },
-  {
-    img: "fnt.jpg",
-    price: "₹600",
-    title: "Fruit Nut Cake"
-  },
-  {
-    img: "ccd.jpg",
-    price: "₹700",
-    title: "Choco Delight"
-  },
-  {
-    img: "bcake.jpg",
-    price: "₹600",
-    title: "Banana Cake"
-  }
-];
-
-const GiftCard = ({ img, price, title }) => (
-  <article className="gift__card relative bg-white dark:bg-gray-800 p-6 pt-4 rounded-xl shadow-lg">
-    <BsHeart className="absolute top-4 right-4 text-xl text-primary cursor-pointer" />
-    
-    <h3 className="text-lg md:text-xl font-semibold">{price}</h3>
-    <span className="text-sm font-medium text-gray-600 dark:text-gray-300">{title}</span>
-  </article>
-);
+import { useDiscount } from '../context/DiscountContext';
+import { useState, useEffect } from 'react';
 
 const Gift = () => {
+  const { calculateDiscountedPrice, activeDiscount } = useDiscount();
+
+  const [prices] = useState({
+    grapeWine: 320,
+    pineappleWine: 350,
+    amlaWine: 400,
+    plumCake: 550,
+    carrotCake: 600,
+    fruitNutCake: 600,
+    chocoDelight: 700,
+    bananaCake: 600
+  });
+
+  const [wineData, setWineData] = useState([
+    {
+      img: "1.png",
+      price: prices.grapeWine,
+      originalPrice: prices.grapeWine,
+      title: "Grape Wine"
+    },
+    {
+      img: "3.png",
+      price: prices.pineappleWine,
+      originalPrice: prices.pineappleWine,
+      title: "Pineapple Wine"
+    },
+    {
+      img: "2.png",
+      price: prices.amlaWine,
+      originalPrice: prices.amlaWine,
+      title: "Amla Wine"
+    }
+  ]);
+
+  const [cakeData, setCakeData] = useState([
+    {
+      img: "pm.avif",
+      price: prices.plumCake,
+      originalPrice: prices.plumCake,
+      title: "Plum Cake"
+    },
+    {
+      img: "cck.jpg",
+      price: prices.carrotCake,
+      originalPrice: prices.carrotCake,
+      title: "Carrot Cake"
+    },
+    {
+      img: "fnt.jpg",
+      price: prices.fruitNutCake,
+      originalPrice: prices.fruitNutCake,
+      title: "Fruit Nut Cake"
+    },
+    {
+      img: "ccd.jpg",
+      price: prices.chocoDelight,
+      originalPrice: prices.chocoDelight,
+      title: "Choco Delight"
+    },
+    {
+      img: "bcake.jpg",
+      price: prices.bananaCake,
+      originalPrice: prices.bananaCake,
+      title: "Banana Cake"
+    }
+  ]);
+
+  useEffect(() => {
+    if (activeDiscount > 0) {
+      const updatedWineData = wineData.map(item => ({
+        ...item,
+        price: calculateDiscountedPrice(item.originalPrice)
+      }));
+      setWineData(updatedWineData);
+
+      const updatedCakeData = cakeData.map(item => ({
+        ...item,
+        price: calculateDiscountedPrice(item.originalPrice)
+      }));
+      setCakeData(updatedCakeData);
+    }
+  }, [activeDiscount, calculateDiscountedPrice, wineData, cakeData]);
+
+  const GiftCard = ({ img, price, originalPrice, title }) => (
+    <article className="gift__card relative bg-white dark:bg-gray-800 p-6 pt-4 rounded-xl shadow-lg">
+      <BsHeart className="absolute top-4 right-4 text-xl text-primary cursor-pointer" />
+      
+      <h3 className="text-lg md:text-xl font-semibold">
+        ₹{activeDiscount > 0 ? price : originalPrice}
+        {activeDiscount > 0 && (
+          <span className="ml-2 text-sm line-through text-gray-400">₹{originalPrice}</span>
+        )}
+      </h3>
+      <span className="text-sm font-medium text-gray-600 dark:text-gray-300">{title}</span>
+    </article>
+  );
+
   return (
     <section className="section container py-16 md:py-20 px-4 md:px-6 lg:px-32" id="gifts">
       <h1 className="text-[1.25rem] sm:text-[1.5rem] font-medium text-center mb-10">
